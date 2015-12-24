@@ -20,3 +20,4 @@
   - I currently can't build from within Atom (https://github.com/snowkit/atom-haxe/issues/42)
   - I build via the following command `flow run web`
 - I'm also using this guide for a refresher on git commands https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
+- I followed the instructions here: to get my git diff tool to be the default filemerge tool on mac: https://gist.github.com/bkeating/329690 (although it gives me a few errors on launch it still works to more visually look at diffs and I don't think the errors affect anything I'm doing.)
