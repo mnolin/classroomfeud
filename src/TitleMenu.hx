@@ -8,19 +8,22 @@ import luxe.Vector;
 
 import phoenix.Texture;
 
+import mint.Control;
+import mint.layout.margins.Margins;
+import mint.types.Types;
+import mint.render.luxe.Convert;
+import mint.render.luxe.LuxeMintRender;
+import mint.render.luxe.Label;
+
 class TitleMenu extends luxe.State {
 
   //declarations
-  //declarations::sprite
-  var bg : Sprite;
-  var logo : Sprite;
   //declarations::text
   var welcomeStr : Text;
 
   //defines
   var welcomeStrHeight = Luxe.screen.height - (Luxe.screen.height / 8);
   var welcomeStrSize = 20;
-  var entitiesOnScreen = new Array<Entity>();
 
   //main functions
   public function new() {
@@ -34,28 +37,23 @@ class TitleMenu extends luxe.State {
 
   override function onenter<T>(_:T) {
 
-    //bg
-    bg = new Sprite({
-        name: 'background',
-        color: new Color().rgb( 0xffffff ),
-        size: Luxe.screen.size,
-        centered: false
-    });
-    entitiesOnScreen.push( bg );
-
     //logo
-    var logoTexture = Luxe.resources.texture( 'assets/title/logo.png' );
+    var logoTexture = Luxe.resources.texture( Main.assetPath_logo );
 
-    //keep pixels crisp when scaling them, for pixel art
-    logoTexture.filter_min = logoTexture.filter_mag = FilterType.nearest;
-
-    logo = new Sprite({
-        name: 'logo',
-        texture: logoTexture,
-        pos : new Vector( Luxe.screen.mid.x, Luxe.screen.mid.y ),
-        size: new Vector( logoTexture.width, logoTexture.height )
+    var logoPanel = new mint.Panel({
+      parent: Main.canvas,
+      x:0, y:0, w:logoTexture.width, h:logoTexture.height,
+      options: {
+        color:new Color()
+      },
     });
-    entitiesOnScreen.push( logo );
+
+    var logo = new mint.Image({
+      parent: logoPanel,
+      w: logoTexture.width, h: logoTexture.height,
+      path: Main.assetPath_logo
+    });
+    //entitiesOnScreen.push( logo );
 
     //welcomeStr
     welcomeStr = new luxe.Text({
@@ -71,18 +69,21 @@ class TitleMenu extends luxe.State {
   } //onenter
 
   override function onleave<T>(_:T) {
-    for ( entity in entitiesOnScreen )
-    {
-      entity.destroy();
-    }
+
+    Main.canvas.destroy_children();
+
   } //onleave
 
-  override function onkeydown( e:KeyEvent ) {
+  override function onkeydown( e:luxe.Input.KeyEvent ) {
+
     Main.state.set('TeamSetupMenu');
+
   } //onkeyup
 
-  override function onmousedown( event:MouseEvent ) {
+  override function onmousedown( e ) {
+
     Main.state.set('TeamSetupMenu');
+
   } //onmousemove
 
 }
